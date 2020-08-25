@@ -1,54 +1,52 @@
 <div class="lyt">
-    <section>
-        <div class="header banner">
-            <div class="title"></div>
-            <div class="user_info">
-                <div class="login-info">
-                    <span class="btn logout" (click)="evtLogout()" [title]="'注销'">
-                        <i class="trigger" nz-icon nzType="logout"></i>
-                    </span>
-                </div>
-            </div>
+  <section>
+    <div class="header banner">
+      <div class="title"></div>
+      <div class="user_info">
+        <div class="login-info">
+          <span class="btn logout" (click)="evtLogout()" [title]="'注销'">
+            <i class="trigger" nz-icon nzType="logout"></i>
+          </span>
         </div>
-        <div class="header">
-            <ul class="gl_menu" nz-menu nzMode="horizontal">
-                <ng-container *ngFor="let menu of menus">
-                    <ng-container *ngIf="menu.children && menu.children.length > 0; else elseBlock">
-                        <li
-                            nz-submenu
-                            routerLinkActive
-                            #rla="routerLinkActive"
-                            [nzOpen]="rla.isActive"
-                            [nzTitle]="titleTpl"
-                        >
-                            <ul>
-                                <ng-container *ngFor="let child of menu.children">
-                                    <li nz-menu-item nzMatchRouter [routerLink]="[child.link]">
-                                        {{ child.title }}
-                                    </li>
-                                </ng-container>
-                            </ul>
-                            <ng-template #titleTpl>
-                                <i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
-                                <span>{{ menu.title }}</span>
-                            </ng-template>
-                        </li>
-                    </ng-container>
-                    <ng-template #elseBlock>
-                        <li nz-menu-item nzMatchRouter [routerLink]="[menu.link]">
-                            <i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
-                            <span>{{ menu.title }}</span>
-                        </li>
-                    </ng-template>
-                </ng-container>
-            </ul>
-        </div>
-        <div class="container">
-            <router-outlet></router-outlet>
-        </div>
-    </section>
-
-    <div class="footer">
-        <span>© 2020 广力软件- All Rights Reserved. 蜀ICP备05007076号</span>
+      </div>
     </div>
+    <div class="header">
+      <ul class="gl_menu" nz-menu nzMode="horizontal">
+        <ng-container *ngFor="let menu of menus">
+          <ng-container
+            *ngIf="menu.children && menu.children.length > 0; else elseBlock"
+          >
+            <li
+              nz-submenu
+              routerLinkActive
+              #rla="routerLinkActive"
+              [nzOpen]="rla.isActive"
+              [nzTitle]="titleTpl"
+            >
+              <ul>
+                <ng-container *ngFor="let child of menu.children">
+                  <li nz-menu-item nzMatchRouter [routerLink]="[child.link]">
+                    {{ child.title }}
+                  </li>
+                </ng-container>
+              </ul>
+              <ng-template #titleTpl>
+                <i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
+                <span>{{ menu.title }}</span>
+              </ng-template>
+            </li>
+          </ng-container>
+          <ng-template #elseBlock>
+            <li nz-menu-item nzMatchRouter [routerLink]="[menu.link]">
+              <i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
+              <span>{{ menu.title }}</span>
+            </li>
+          </ng-template>
+        </ng-container>
+      </ul>
+    </div>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
 </div>
