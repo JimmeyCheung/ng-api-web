@@ -1,0 +1,48 @@
+/*
+ * @Author: mikey.Huwenhong 
+ * @Date: 2020-03-16 14:28:22 
+ * @Last Modified by: mikey.Huwenhong
+ * @Last Modified time: 2020-03-17 11:07:36
+ */
+
+// 抽屉一些固定样式
+// 最顶部，最底部操作区域
+
+// <div class="drawer_area">
+//     <div class="container"></div>
+//     <div class="footer"></div>
+// </div>
+
+$handle-height: 50px;
+
+.drawer_area {
+    position: absolute;
+    top: 54px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    & > .header {
+        height: $handle-height;
+        line-height: $handle-height;
+        padding: 0 10px;
+    }
+
+    & > .container {
+        flex: 1;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        padding: 20px;
+        overflow: auto;
+    }
+
+    & > .footer {
+        height: $handle-height;
+        line-height: $handle-height;
+        padding: 0 10px;
+    }
+}

@@ -1,0 +1,87 @@
+/*
+ * @Author: mikey.Huwenhong 
+ * @Date: 2020-03-12 17:42:24 
+ * @Last Modified by: mikey.Huwenhong
+ * @Last Modified time: 2020-05-21 16:54:47
+ */
+
+/*
+ * 传统的上下左右布局实现
+ * 示例代码
+<div class="layout">
+    <div class="header">
+
+        <div class="right"></div>
+    </div>
+    <div class="container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</div>
+*/
+
+$header-height: 50px;
+$left-width: 300px;
+
+.layout {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    & > .header {
+        height: $header-height;
+        line-height: $header-height;
+        padding-left: 10px;
+
+        & > .right_handle {
+            height: $header-height;
+            line-height: $header-height;
+            float: right;
+            padding: 0 10px;
+        }
+    }
+
+    & > .container {
+        flex: 1;
+
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+
+        & > .left {
+            width: $left-width;
+            display: flex;
+            flex-direction: column;
+
+            & > .find,
+            & > .handle {
+                height: $header-height;
+                line-height: $header-height;
+                /*flex 布局*/
+                display: flex;
+                /*实现垂直居中*/
+                align-items: center;
+                /*实现水平居中*/
+                justify-content: center;
+            }
+
+            & > .tree {
+                height: 100%;
+                flex: 1;
+                overflow: hidden;
+            }
+        }
+
+        & > .right {
+            flex: 1;
+            overflow: hidden;
+        }
+    }
+
+    & > .footer {
+        height: $header-height;
+        line-height: $header-height;
+        padding: 0 10px;
+    }
+}
