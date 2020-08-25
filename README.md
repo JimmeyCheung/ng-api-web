@@ -1,27 +1,26 @@
-# NgApi
+# 前端项目
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.24.
+## 所需框架
 
-## Development server
+### 项目主框架
+- angular 地址：https://angular.cn/docs
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### UI控件库
+- ng-zorro 地址：https://ng.ant.design/docs/introduce/zh
 
-## Code scaffolding
+### 图标库
+- font-awesome 地址：http://www.fontawesome.com.cn/faicons
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 工具库
 
-## Build
+- 统计图
+   - highcharts 地址： https://www.highcharts.com.cn/
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- js函数库
+   - lodash 地址： https://lodash.com/
 
-## Running unit tests
+- 时间处理库
+   - Moment.js 地址：https://momentjs.com/
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- 富文本编辑器
+   - tiny 地址：https://www.tiny.cloud/docs/demo/full-featured/
