@@ -1,0 +1,75 @@
+:host {
+    display: flex;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.lyt {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #f5f5f5;
+
+    overflow: hidden;
+    overflow-y: auto;
+
+    .banner {
+        height: 200px !important;
+        background-image: url('assets/images/client/banner.png');
+        background-size: 100% 100%;
+
+        /*flex 布局*/
+        display: flex;
+        /*实现垂直居中*/
+        align-items: center;
+        /*实现水平居中*/
+        justify-content: center;
+
+        position: relative;
+
+        .title {
+            background-image: url('assets/images/client/word.png');
+            width: 404px;
+            height: 48px;
+        }
+
+        .user_info {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #fff;
+
+            .btn {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .header {
+        height: 50px;
+        text-align: center;
+    }
+
+    section {
+        width: 100%;
+        min-height: 100%;
+
+        .container {
+            padding: 50px 100px;
+            padding-bottom: 6em;
+        }
+    }
+
+    .footer {
+        text-align: center;
+        background-color: #fff;
+        // padding: 20px 0;
+        height: 5em;
+        line-height: 5em;
+        margin-top: -5em;
+    }
+}

@@ -1,0 +1,395 @@
+<div class="layout lyt">
+    <div class="container">
+        <div class="left">
+            <div class="handle" *ngIf="permission.isMaintain">
+                <nz-button-group>
+                    <button nz-button nzType="primary" (click)="headHandleIfy.evtAdd()">
+                        新增分组
+                    </button>
+                    <button
+                        nz-button
+                        nzType="default"
+                        [disabled]="
+                            !apiGroupIfy.tree.activedNode?.key ||
+                            apiGroupIfy.tree.activedNode?.origin?.nodeType === nodeTypeEnum.GENERAL
+                        "
+                        (click)="headHandleIfy.evtEdit()"
+                    >
+                        编辑
+                    </button>
+                    <button
+                        nz-button
+                        nzType="danger"
+                        [disabled]="!apiGroupIfy.tree.activedNode?.key"
+                        (click)="headHandleIfy.evtDel()"
+                    >
+                        删除
+                    </button>
+                </nz-button-group>
+            </div>
+            <div class="find">
+                <nz-select
+                    [ngStyle]="{ 'width.px': apiGroupIfy.find.searchWidth || 160 }"
+                    nzShowSearch
+                    nzServerSearch
+                    nzAllowClear
+                    [nzPlaceHolder]="apiGroupIfy.find.placeholder || '请输入关键字搜索'"
+                    [nzShowArrow]="false"
+                    [nzFilterOption]="apiGroupIfy.find.nzFilterOption"
+                    [(ngModel)]="apiGroupIfy.find.searchKey"
+                    (ngModelChange)="apiGroupIfy.find.change($event)"
+                    (nzOnSearch)="apiGroupIfy.find.search($event)"
+                >
+                    <ng-container *ngFor="let item of apiGroupIfy.find.list">
+                        <nz-option [nzLabel]="item.text" [nzValue]="item.value"> </nz-option>
+                    </ng-container>
+                </nz-select>
+            </div>
+            <div class="tree">
+                <div class="view_scroll">
+                    <nz-tree
+                        #apiGroupTreeElement
+                        nzAsyncData
+                        [nzData]="apiGroupIfy.tree.nodes"
+                        [nzTreeTemplate]="nzGroupTreeTemplate"
+                        (nzClick)="apiGroupIfy.tree.evtActiveNode($event)"
+                        (nzExpandChange)="apiGroupIfy.tree.evtExpandChange($event)"
+                    >
+                        <ng-template #nzGroupTreeTemplate let-node>
+                            <span
+                                class="custom-node"
+                                [class.active]="apiGroupIfy.tree.activedNode?.key === node.key"
+                            >
+                                <i
+                                    class="fa fa-{{
+                                        apiGroupIfy.tree.icons[node.origin?.nodeType]
+                                    }}"
+                                    aria-hidden="true"
+                                ></i>
+                                <span class="node-text">{{ node.title }}</span>
+                            </span>
+                        </ng-template>
+                    </nz-tree>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="layout">
+                <div class="header" *ngIf="permission.isMaintain">
+                    <nz-button-group>
+                        <button
+                            nz-button
+                            nzType="primary"
+                            [disabled]="
+                                !apiGroupIfy.tree.activedNode?.key ||
+                                apiGroupIfy.tree.activedNode?.origin?.nodeType !== nodeTypeEnum.TREE
+                            "
+                            (click)="headHandleIfy.evtAddAPI()"
+                        >
+                            添加API
+                        </button>
+                    </nz-button-group>
+                </div>
+                <div
+                    class="container"
+                    *ngIf="apiGroupIfy.tree?.activedNode?.key; else emptyElement"
+                >
+                    <div
+                        class="api_table"
+                        [hidden]="
+                            !(
+                                apiGroupIfy.tree?.activedNode?.origin?.SYS_NODE_TYPE ===
+                                nodeTypeEnum.TREE
+                            )
+                        "
+                    >
+                        <nz-table
+                            #apiTable
+                            nzBordered
+                            nzSize="small"
+                            nzPageSize="15"
+                            [nzData]="apiTableIfy.data"
+                        >
+                            <thead>
+                                <tr>
+                                    <th nzWidth="180px">简要描述</th>
+                                    <th nzWidth="80px">请求方式</th>
+                                    <th nzWidth="100px">状态</th>
+                                    <th nzWidth="300px">请求地址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of apiTable.data">
+                                    <td>{{ data.API_NAME }}</td>
+                                    <td>{{ getRequestModeName(data.API_REQUEST_MODE) }}</td>
+                                    <td>{{ getApiStatusName(data.API_STATUS) }}</td>
+                                    <td>{{ data.API_URL }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+
+                    <div
+                        class="api_info"
+                        [hidden]="
+                            !(
+                                apiGroupIfy.tree?.activedNode?.origin?.SYS_NODE_TYPE ===
+                                nodeTypeEnum.GENERAL
+                            )
+                        "
+                    >
+                        <ng-template
+                            [ngTemplateOutlet]="apiInfoElement"
+                            [ngTemplateOutletContext]="{
+                                apiInfo: apiInfoIfy.data
+                            }"
+                        ></ng-template>
+                    </div>
+                </div>
+                <ng-template #emptyElement>
+                    <div class="right empyt">
+                        <nz-empty nzNotFoundContent="未选择api"></nz-empty>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 分组编辑字段 -->
+<ng-template #apiGroupFieldElement let-formGroup="formGroup" let-isEdit="isEdit">
+    <form nz-form [formGroup]="formGroup">
+        <nz-form-item *ngIf="!isEdit">
+            <nz-form-control>
+                <label
+                    nz-checkbox
+                    formControlName="isTop"
+                    [nzDisabled]="!apiGroupIfy.tree.activedNode?.key"
+                    >是否顶层</label
+                >
+                <nz-divider nzType="vertical"></nz-divider>
+                <span *ngIf="!formGroup.get('isTop').value"
+                    >顶层节点：{{ apiGroupIfy.tree.activedNode?.title }}</span
+                >
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzRequired>分组（节点）名称</nz-form-label>
+            <nz-form-control nzHasFeedback>
+                <input nz-input formControlName="GROUP_NAME" placeholder="输入名称" />
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</ng-template>
+
+<!-- 分组抽屉 -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="sysGroupDrawerIfy.visible"
+    [nzWidth]="sysGroupDrawerIfy.width"
+    [nzTitle]="sysGroupDrawerIfy.title"
+    (nzOnClose)="sysGroupDrawerIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="container">
+            <ng-template
+                [ngTemplateOutlet]="apiGroupFieldElement"
+                [ngTemplateOutletContext]="{
+                    formGroup: sysGroupDrawerIfy.form,
+                    isEdit: sysGroupDrawerIfy.isEdit
+                }"
+            >
+            </ng-template>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="sysGroupDrawerIfy.save()">保存</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<!-- 选择api -->
+<nz-drawer
+    nzPlacement="right"
+    [nzVisible]="apiLibDrawerIfy.visible"
+    [nzWidth]="apiLibDrawerIfy.width"
+    [nzTitle]="apiLibDrawerIfy.title"
+    (nzOnClose)="apiLibDrawerIfy.close()"
+>
+    <div class="drawer_area">
+        <div class="header">
+            <nz-select
+                [ngStyle]="{ 'width.px': apiLibraryIfy.find.searchWidth || 160 }"
+                nzShowSearch
+                nzServerSearch
+                nzAllowClear
+                [nzPlaceHolder]="apiLibraryIfy.find.placeholder || '请输入关键字搜索'"
+                [nzShowArrow]="false"
+                [nzFilterOption]="apiLibraryIfy.find.nzFilterOption"
+                [(ngModel)]="apiLibraryIfy.find.searchKey"
+                (ngModelChange)="apiLibraryIfy.find.change($event)"
+                (nzOnSearch)="apiLibraryIfy.find.search($event)"
+            >
+                <ng-container *ngFor="let item of apiLibraryIfy.find.list">
+                    <nz-option [nzLabel]="item.text" [nzValue]="item.value"> </nz-option>
+                </ng-container>
+            </nz-select>
+        </div>
+        <div class="container">
+            <div class="view_scroll">
+                <nz-tree
+                    #apiLibTreeElement
+                    nzAsyncData
+                    nzCheckable
+                    [nzData]="apiLibraryIfy.tree.nodes"
+                    [nzTreeTemplate]="nzAPITreeTemplate"
+                    (nzClick)="apiLibraryIfy.tree.evtActiveNode($event)"
+                    (nzExpandChange)="apiLibraryIfy.tree.evtExpandChange($event)"
+                >
+                    <ng-template #nzAPITreeTemplate let-node>
+                        <span
+                            class="custom-node"
+                            [class.active]="apiLibraryIfy.tree.activedNode?.key === node.key"
+                        >
+                            <i
+                                class="fa fa-{{ apiLibraryIfy.tree.icons[node.origin?.nodeType] }}"
+                                aria-hidden="true"
+                            ></i>
+                            <span class="node-text">{{ node.title }}</span>
+                        </span>
+                    </ng-template>
+                </nz-tree>
+            </div>
+        </div>
+        <div class="footer">
+            <button nz-button nzType="primary" (click)="apiLibDrawerIfy.save()">添加</button>
+        </div>
+    </div>
+</nz-drawer>
+
+<ng-template #apiInfoElement let-apiInfo="apiInfo">
+    <div class="gl_doc">
+        <div class="header">
+            <h2>
+                <b>{{ apiInfo?.API_NAME }}</b>
+            </h2>
+        </div>
+        <div class="container">
+            <div class="desc">
+                <div class="item">
+                    <div class="title"><b>简要描述：</b></div>
+                    <ul>
+                        <li>{{ apiInfo?.API_NAME }}</li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title"><b>API状态：</b></div>
+                    <ul>
+                        <li>
+                            {{ getApiStatusName(apiInfo?.API_STATUS) }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title"><b>请求URL：</b></div>
+                    <ul>
+                        <li>
+                            <code>{{ apiInfo?.URL }}</code>
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title"><b>请求方式：</b></div>
+                    <ul>
+                        <li>{{ getRequestModeName(apiInfo?.API_REQUEST_MODE) }}</li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title"><b>备注：</b></div>
+                    <ul>
+                        <li>{{ apiInfo?.API_DESC || '暂无' }}</li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title">
+                        <b>传入参数：</b>
+                    </div>
+                    <div class="params_tbl">
+                        <nz-table
+                            #apiParamsTable
+                            nzBordered
+                            nzSize="small"
+                            nzPageSize="5"
+                            [nzData]="apiInfo?.params"
+                        >
+                            <thead>
+                                <tr>
+                                    <th nzWidth="120px">参数名</th>
+                                    <th nzWidth="40px">必选</th>
+                                    <th nzWidth="80px">类型</th>
+                                    <th nzWidth="300px">说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of apiParamsTable.data">
+                                    <td>{{ data.PARAM_NAME }}</td>
+                                    <td>{{ data.PARAM_IS_NOT_NULL ? '是' : '否' }}</td>
+                                    <td>{{ getColumnTypeName(data.PARAM_TYPE) }}</td>
+                                    <td>{{ data.PARAM_DESC }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="title"><b>参数示例：</b></div>
+                    <ul>
+                        <li>
+                            <!-- <pre>{{ apiInfo?.API_PARAM }}</pre> -->
+                            <pre class="hljs" [innerHTML]="apiInfo?.API_PARAM_CODE"></pre>
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <div class="title">
+                        <b>返回参数：</b>
+                    </div>
+                    <div class="params_tbl">
+                        <nz-table
+                            #apiOutParamsTable
+                            nzBordered
+                            nzSize="small"
+                            nzPageSize="5"
+                            [nzData]="apiInfo?.outParams"
+                        >
+                            <thead>
+                                <tr>
+                                    <th nzWidth="120px">参数名</th>
+                                    <th nzWidth="80px">类型</th>
+                                    <th nzWidth="300px">说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of apiOutParamsTable.data">
+                                    <td>{{ data.OUT_NAME }}</td>
+                                    <td>{{ getColumnTypeName(data.OUT_TYPE) }}</td>
+                                    <td>{{ data.OUT_DESC }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="title"><b>返回参数示例：</b></div>
+                    <ul>
+                        <li>
+                            <!-- <pre>{{ apiInfo?.API_RETURN }}</pre> -->
+                            <pre class="hljs" [innerHTML]="apiInfo?.API_RETURN_CODE"></pre>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

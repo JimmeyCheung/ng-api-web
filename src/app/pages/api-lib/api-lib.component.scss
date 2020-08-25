@@ -1,0 +1,141 @@
+/*导入布局样式*/
+@import 'src/app/style/layout';
+@import 'src/app/style/drawer';
+
+.view_scroll {
+    height: auto;
+    overflow: auto;
+}
+.view {
+    width: 100%;
+}
+
+.lyt {
+    .left {
+        width: 380px !important;
+        .handle,
+        .find {
+            justify-content: left !important;
+        }
+    }
+    .right {
+        min-height: 300px;
+    }
+    .area {
+        box-shadow: 0 1px 6px #ccc;
+    }
+    .empyt {
+        margin-top: 100px;
+    }
+}
+
+.gl_doc {
+    padding: 20px;
+    background-color: #fff;
+    // box-shadow: 0 1px 6px #ccc inset;
+
+    .header {
+        // border-bottom: 1px solid #ebebeb;
+        text-align: center;
+        // padding-bottom: 10px;
+        // margin-bottom: 20px;
+    }
+
+    .desc {
+        .item {
+            padding: 10px 40px;
+
+            .title {
+                margin-bottom: 5px;
+                line-height: 35px;
+            }
+
+            code {
+                border: 1px solid #ddd;
+                background: #f6f6f6;
+                padding: 3px;
+                border-radius: 3px;
+                font-size: 14px;
+            }
+
+            ol,
+            ul,
+            dl {
+                margin: 0;
+            }
+
+            .params_tbl {
+                padding-left: 40px;
+                width: 100%;
+            }
+        }
+    }
+
+    .mock_data {
+        .tbl {
+            margin-top: 10px;
+        }
+        padding: 20px 40px;
+    }
+}
+
+.view_js_data {
+    margin-top: 10px;
+}
+
+.request_test {
+    padding: 20px;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .request_url {
+        flex: 1;
+        /*flex 布局*/
+        display: flex;
+        /*实现垂直居中*/
+        align-items: center;
+    }
+
+    .right_handle {
+        width: 100px;
+    }
+
+    .request_params {
+        padding-top: 10px;
+
+        .request_body {
+            .options {
+                margin: 10px 0;
+            }
+        }
+    }
+
+    .response {
+        padding-top: 20px;
+    }
+}
+
+.mock_data {
+    .eg {
+        margin: 10px 0;
+    }
+}
+
+:host ::ng-deep {
+    nz-table {
+        td {
+            input {
+                border: 1px solid #ccc;
+                width: 100%;
+            }
+        }
+    }
+}
+
+pre {
+    padding: 3px;
+    border-radius: 3px;
+}

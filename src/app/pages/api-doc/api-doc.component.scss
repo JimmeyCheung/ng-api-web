@@ -1,0 +1,95 @@
+/*导入布局样式*/
+@import 'src/app/style/layout';
+@import 'src/app/style/drawer';
+
+.view {
+    width: 100%;
+    overflow: auto;
+}
+
+.view_scroll {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.lyt {
+    .left {
+        width: 380px !important;
+        .handle,
+        .find {
+            justify-content: left !important;
+        }
+    }
+    .right {
+        min-height: 300px;
+    }
+    .area {
+        box-shadow: 0 1px 6px #ccc;
+    }
+    .empyt {
+        margin-top: 100px;
+    }
+}
+
+.api_table,
+.api_info {
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.gl_doc {
+    padding: 20px;
+    background-color: #fff;
+    // box-shadow: 0 1px 6px #ccc inset;
+
+    .header {
+        border-bottom: 1px solid #ebebeb;
+        text-align: center;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .desc {
+        .item {
+            padding: 10px 40px;
+
+            .title {
+                margin-bottom: 5px;
+                line-height: 35px;
+            }
+
+            code {
+                border: 1px solid #ddd;
+                background: #f6f6f6;
+                padding: 3px;
+                border-radius: 3px;
+                font-size: 14px;
+            }
+
+            ol,
+            ul,
+            dl {
+                margin: 0;
+            }
+
+            .params_tbl {
+                padding-left: 40px;
+                width: 100%;
+            }
+        }
+    }
+
+    .mock_data {
+        .tbl {
+            margin-top: 10px;
+        }
+        padding: 20px 40px;
+    }
+}
+
+pre {
+    padding: 3px;
+    border-radius: 3px;
+}

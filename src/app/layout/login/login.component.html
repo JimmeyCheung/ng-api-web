@@ -1,0 +1,36 @@
+<div class="container position_0">
+    <div class="row">
+        <div class="loginblank position_0">
+            <div class="theme">
+                <div class="logo position_0"></div>
+                <div class="title position_0">{{ projectName }}</div>
+            </div>
+            <div class="login_form">
+                <div class="heading">欢迎登陆</div>
+                <div class="form">
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="用户名"
+                            [(ngModel)]="userData.userAccount"
+                            [attr.name]="username"
+                        />
+                    </div>
+                    <div class="form-group help">
+                        <input
+                            type="password"
+                            class="form-control"
+                            placeholder="密　码"
+                            [(ngModel)]="userData.password"
+                            [attr.name]="password"
+                        />
+                    </div>
+                    <div class="btns">
+                        <button type="submit" class="btn" #loginBtn>登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
